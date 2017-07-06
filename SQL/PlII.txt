@@ -1,0 +1,90 @@
+1)
+
+            string sc = Properties.Settings.Default.AGENDAConnectionString;
+            cn = new SqlConnection(sc);
+            cn.Open();
+
+2)
+
+
+ private void comboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                contactoBindingSource.DataSource = null;
+                contactoDataGridView.DataSource = null;
+                if (comboBoxGrupo.SelectedValue != null)
+                {
+                    int cod = int.Parse(comboBoxGrupo.SelectedValue.ToString());
+                    contactoBindingSource.DataSource = db.Contacto.Where(a => a.Grupo_Id == cod).ToList();
+                    contactoDataGridView.DataSource = contactoBindingSource;
+                }
+           
+            }
+            catch (Exception)
+            {
+                
+            }
+         
+        
+        }
+
+
+3)
+
+
+4)
+
+ private void button1_Click(object sender, EventArgs e)
+        {
+           
+          
+            if (CSelec != null)
+            {
+                CSelec.Grupo_Id = int.Parse(comboBoxGrupo.SelectedValue.ToString());
+                    contactoBindingSource.EndEdit();
+               
+            }
+            else
+            {
+               
+                    CN.Grupo_Id = int.Parse(comboBoxGrupo.SelectedValue.ToString());
+                    contactoBindingSource.EndEdit();
+                    db.Contacto.AddObject(CN);
+               
+               
+
+            }
+
+            db.SaveChanges();
+            this.Close();
+        }
+
+
+
+                public void actualizarCombos()
+        {
+            comboBoxGrupo.DataSource = db.Grupo.ToList();
+            comboBoxGrupo.DisplayMember = "Descripcion";
+            comboBoxGrupo.ValueMember = "Id";
+        }
+
+5)
+
+
+        private void butAlta_Click(object sender, EventArgs e)
+        {
+            FichaContacto fc = new FichaContacto();
+            fc.db = this.db;
+            fc.MdiParent = this.MdiParent;
+            fc.Show();
+        }
+
+        private void refrescar()
+        {
+            contactoBindingSource.DataSource = null;
+            contactoDataGridView.DataSource = null;
+
+            contactoBindingSource.DataSource = db.Contacto.ToList();
+            contactoDataGridView.DataSource = contactoBindingSource;
+        }
